@@ -55,11 +55,14 @@ ylabel('Y Position');
 % text(P(1,n), P(2,n), 'end');
 
 %% Numerical integration
+close all;
+clear all; 
+
 kB = 1.38*10^(-23);             % Boltzmann constant [J/K]
 T = 298;                        % Temperature [K]
 
-Fx = 1*10^(-20);                
-Fy = 0;
+Fx = 1*10^(-18);                
+Fy = 0; %1*10^(-20);  
 F = [Fx, Fy]';
 
 L = 1; 
@@ -71,16 +74,22 @@ A = 1/integral(fun, 0, 2*pi);
 theta = linspace(0, 2*pi, 1000);
 CDF = zeros(size(theta));
 
-for i = 1:length(theta)
-    CDF(i) = A*integral(fun, 0, theta(i));
-end
+% O(n^2)
+% for i = 1:length(theta)
+%     CDF(i) = A*integral(fun, 0, theta(i));
+% end
 
-plot(theta, CDF);
+CDF2 = [0 cumsum(A*fun(theta)*(theta(2)-theta(1)))];
+CDF2 = CDF2(1:end-1);
+
+
+
+plot(theta, fun(theta));
 
 rand_vals = rand(1000, 1);
 % To create a map from random numbers [0, 1] to theta vals [0, 2pi] while
 % maintaing the Boltzmann distribution 
-rand_theta = interp1(CDF, theta, rand_vals);
+rand_theta = interp1(CDF2, theta, rand_vals);
 
 polarscatter(rand_theta, ones(length(rand_theta), 1));
 
