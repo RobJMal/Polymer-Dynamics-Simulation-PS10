@@ -4,7 +4,7 @@ T = 298;
 L = 1; 
 n = 10;
 
-P = polyer_dynamics_2d(f_app, T, L, n);
+P = polymer_dynamics_2d(f_app, T, L, n);
 
 % Creating a plot 
 plot(P(1,:), P(2,:), 'bo-');
